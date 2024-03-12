@@ -7,6 +7,8 @@ using GitLabApiClient.Internal.Paths;
 using GitLabApiClient.Internal.Queries;
 using GitLabApiClient.Internal.Utilities;
 using GitLabApiClient.Models;
+using GitLabApiClient.Models.Epics.Requests;
+using GitLabApiClient.Models.Epics.Responses;
 using GitLabApiClient.Models.Groups.Requests;
 using GitLabApiClient.Models.Groups.Responses;
 using GitLabApiClient.Models.Milestones.Requests;
@@ -28,19 +30,22 @@ namespace GitLabApiClient
         private readonly ProjectsGroupQueryBuilder _projectsQueryBuilder;
         private readonly MilestonesQueryBuilder _queryMilestonesBuilder;
         private readonly GroupLabelsQueryBuilder _queryGroupLabelBuilder;
+        private readonly EpicsQueryBuilder _queryEpicsBuilder;
 
         internal GroupsClient(
             GitLabHttpFacade httpFacade,
             GroupsQueryBuilder queryBuilder,
             ProjectsGroupQueryBuilder projectsQueryBuilder,
             MilestonesQueryBuilder queryMilestonesBuilder,
-            GroupLabelsQueryBuilder queryGroupLabelBuilder)
+            GroupLabelsQueryBuilder queryGroupLabelBuilder,
+            EpicsQueryBuilder queryEpicsBuilder)
         {
             _httpFacade = httpFacade;
             _queryBuilder = queryBuilder;
             _projectsQueryBuilder = projectsQueryBuilder;
             _queryMilestonesBuilder = queryMilestonesBuilder;
             _queryGroupLabelBuilder = queryGroupLabelBuilder;
+            _queryEpicsBuilder = queryEpicsBuilder;
         }
 
         /// <summary>
@@ -130,6 +135,29 @@ namespace GitLabApiClient
             }
 
             return await _httpFacade.GetPagedList<Member>(url);
+        }
+
+        
+        public async Task<IList<Epic>> GetEpicsAsync(GroupId groupId, Action<EpicQueryOptions> options = null)
+        {
+            var epicsOptions = new EpicQueryOptions();
+            options?.Invoke(epicsOptions);
+
+            string url = _queryEpicsBuilder.Build($"groups/{groupId}/epics", epicsOptions);
+            return await _httpFacade.GetPagedList<Epic>(url);
+        }
+
+        /// <summary>
+        /// Gets a specific epic in a group.
+        /// </summary>
+        /// <param name="groupId">The ID, path or <see cref="Group"/> of the group.</param>
+        /// <param name="id">The IID of the Epic.</param>
+        /// <returns></returns>
+        public async Task<Epic> GetEpicAsync(GroupId groupId, int id)
+        {
+            string url = $"groups/{groupId}/epics/{id}";
+
+            return await _httpFacade.Get<Epic>(url);
         }
 
         /// <summary>

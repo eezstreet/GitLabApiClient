@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GitLabApiClient.Internal.Paths;
 using GitLabApiClient.Models;
+using GitLabApiClient.Models.Epics.Requests;
+using GitLabApiClient.Models.Epics.Responses;
 using GitLabApiClient.Models.Groups.Requests;
 using GitLabApiClient.Models.Groups.Responses;
 using GitLabApiClient.Models.Milestones.Requests;
@@ -93,6 +95,21 @@ namespace GitLabApiClient
         /// </summary>
         /// <param name="groupId">The ID, path or <see cref="Group"/> of the group.</param>
         Task<IList<Runner>> GetRunnersAsync(GroupId groupId);
+
+        /// <summary>
+        /// Get a list of epics in a group.
+        /// </summary>
+        /// <param name="groupId">The ID, path or <see cref="Group"/> of the group.</param>
+        /// <param name="queryOptions">The options provided to the query.</param>
+        Task<IList<Epic>> GetEpicsAsync(GroupId groupId, Action<EpicQueryOptions> queryOptions);
+
+        /// <summary>
+        /// Get a specific epic in a group.
+        /// </summary>
+        /// <param name="groupId">The ID, path or <see cref="Group"/> of the group.</param>
+        /// <param name="id">The IID of the Epic.</param>
+        /// <returns></returns>
+        Task<Epic> GetEpicAsync(GroupId groupId, int id);
 
         /// <summary>
         /// Creates a new project group.

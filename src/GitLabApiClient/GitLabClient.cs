@@ -48,6 +48,7 @@ namespace GitLabApiClient
             var projectMergeRequestsQueryBuilder = new ProjectMergeRequestsQueryBuilder();
             var groupsQueryBuilder = new GroupsQueryBuilder();
             var groupLabelsQueryBuilder = new GroupLabelsQueryBuilder();
+            var epicsQueryBuilder = new EpicsQueryBuilder();
             var projectsGroupsQueryBuilder = new ProjectsGroupQueryBuilder();
             var branchQueryBuilder = new BranchQueryBuilder();
             var releaseQueryBuilder = new ReleaseQueryBuilder();
@@ -66,7 +67,7 @@ namespace GitLabApiClient
             MergeRequests = new MergeRequestsClient(_httpFacade, mergeRequestsQueryBuilder, projectMergeRequestsQueryBuilder, projectMergeRequestsNotesQueryBuilder);
             Projects = new ProjectsClient(_httpFacade, projectQueryBuilder, projectMilestonesQueryBuilder, jobQueryBuilder);
             Users = new UsersClient(_httpFacade);
-            Groups = new GroupsClient(_httpFacade, groupsQueryBuilder, projectsGroupsQueryBuilder, projectMilestonesQueryBuilder, groupLabelsQueryBuilder);
+            Groups = new GroupsClient(_httpFacade, groupsQueryBuilder, projectsGroupsQueryBuilder, projectMilestonesQueryBuilder, groupLabelsQueryBuilder, epicsQueryBuilder);
             Branches = new BranchClient(_httpFacade, branchQueryBuilder);
             Releases = new ReleaseClient(_httpFacade, releaseQueryBuilder);
             Tags = new TagClient(_httpFacade, tagQueryBuilder);
