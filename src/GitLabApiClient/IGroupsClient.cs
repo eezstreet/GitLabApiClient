@@ -101,7 +101,7 @@ namespace GitLabApiClient
         /// </summary>
         /// <param name="groupId">The ID, path or <see cref="Group"/> of the group.</param>
         /// <param name="queryOptions">The options provided to the query.</param>
-        Task<IList<Epic>> GetEpicsAsync(GroupId groupId, Action<EpicQueryOptions> queryOptions);
+        Task<IList<Epic>> GetEpicsAsync(GroupId groupId, Action<EpicQueryOptions> queryOptions = null);
 
         /// <summary>
         /// Get a specific epic in a group.
